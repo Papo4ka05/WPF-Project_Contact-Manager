@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ContactManager.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConnectionString" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=DESKTOP-KV0N7MH\SQLEXPRESS;Trusted_Connection = Yes;database = contact_manager_db;</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Data Source=(localdb)\MSSQLLocalDB;Trusted_Connection = Yes;database = contact_manager_db;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
