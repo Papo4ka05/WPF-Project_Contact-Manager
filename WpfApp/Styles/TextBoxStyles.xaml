@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="TextBox" x:Key="TextBoxStyles">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}}" Value="Note">
+                <Setter Property="Foreground" Value="Gray"/>
+            </DataTrigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,88 @@
+﻿<Window x:Class="ContactManager.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager"
+        mc:Ignorable="d"
+        xmlns:s="/Styles/TextBoxStyles"
+    Title="Authorisation" Height="400" Width="600">
+    <Window.Resources>
+        <!-- Styles for TextBox and PasswordBox -->
+        <Style x:Key="InputStyle" TargetType="Control">
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="30 10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Button style -->
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="30 10"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="DarkGray"/>
+                </Trigger>
+            </Style.Triggers>
+            
+        </Style>
+    </Window.Resources>
+
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.2,1" StartPoint="0.8,0">
+                <GradientStop Color="Black"/>
+                <GradientStop Color="#8643D6" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Border MinWidth="400" Margin="15" Background="#fff" VerticalAlignment="Center" Padding="30" MaxWidth="550" CornerRadius="20">
+            <Border.Effect>
+                <!--ShadowDepth="0"   то на сколько далеко удет уходить тень-->
+                <DropShadowEffect BlurRadius="30" Color="LightGray" ShadowDepth="-1"/>
+            </Border.Effect>
+            <StackPanel>
+                <TextBlock Text="Log In" FontSize="30" FontWeight="Bold" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+
+                <!--<TextBox x:Name="TextBoxLogin" materialDesign:HintAssist.Hint="Login" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <PasswordBox x:Name="PassBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+                <Button Content="Login" Margin="40 20 40 10" Click="Button_Auth_Click"/>
+                <Button HorizontalAlignment="Center" Content="Sign Up" Click="Button_Registration_Click" Style="{StaticResource MaterialDesignFlatButton}"/>-->
+
+
+
+                <TextBox x:Name="TextBoxLogin" Text="Login" Style="{StaticResource InputStyle}"/>
+                <PasswordBox x:Name="PassBox" Password="Password" Style="{StaticResource InputStyle}"/>
+                <Button Content="Login" Click="Button_Auth_Click" Style="{StaticResource ButtonStyle}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="20" Background="Gray">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                <Button Content="Sign Up" Click="Button_Registration_Click" Style="{StaticResource ButtonStyle}">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border CornerRadius="20" Background="Gray">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                
+                
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

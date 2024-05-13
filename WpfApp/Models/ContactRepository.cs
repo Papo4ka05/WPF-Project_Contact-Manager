@@ -19,22 +19,27 @@ namespace ContactManager
         /// <summary>Create contact</summary>
         public void Create(Contact contact)
         {
+            // Use using to create a SqlConnection object that will be automatically closed after use
             using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
             {
+                // // If the object conn null, throw an exception
                 if (conn == null)
                 {
                     throw new Exception("connection string is null");
                 }
                 else if (contact == null)
                 {
+                    // If contact null, throw an exception
                     throw new Exception("contact is null");
                 }
 
+                // Create an SQL query to insert a new contact into the ‘Contacts’ table using the prepared parameters
                 var query = new SqlCommand(@"insert into ""Contacts"" (""FirstName"", ""LastName"", ""PhoneNumber"", ""DateOfBirth"", ""Email"", ""Note"", ""CategoryId"")
                     values (@firstName, @lastName, @phoneNumber, @dateOfBirth, @email, @note, @categoryId);", conn);
 
                 conn.Open();
 
+                // Add parameters to the request using values from the contact
                 query.Parameters.AddRange(new[]
                 {
                     new SqlParameter("categoryId", SqlDbType.Int)
@@ -72,6 +77,7 @@ namespace ContactManager
         }
 
         /// <summary>Delete contact</summary>
+        // This method performs the deletion of a contact from the database by its identifier (contactID)
         public void Delete(int contactId)
         {
             using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
@@ -85,6 +91,8 @@ namespace ContactManager
 
                 conn.Open();
 
+                // Adds a parameter to the SQL query that specifies the ID of the contact to be deleted
+                // This is done to prevent SQL injection attacks and ensure safe execution of the query.
                 query.Parameters.Add(new SqlParameter("contactId", SqlDbType.Int)
                 {
                     Value = contactId
@@ -115,6 +123,12 @@ namespace ContactManager
 
                 conn.Open();
 
+                // SqlDataAdapter используется для заполнения DataTable данными из источника данных,
+                // в данном случае - из результата SQL-запроса к базе данных.Он предоставляет интерфейс для выполнения операций
+                // с базой данных, таких как выборка, вставка, обновление и удаление данных.
+
+                // It is used to execute a query request to the database
+                // A SqlDataAdapter which is used to fill the DataTable with data obtained from the result of the query execution.
                 var sqlDataAdapter = new SqlDataAdapter(query);
                 var dataTable = new DataTable();
                 sqlDataAdapter.Fill(dataTable);
@@ -150,6 +164,8 @@ namespace ContactManager
                     throw new Exception("connection string is null");
                 }
 
+                // If categoryId is 0, all user contacts are selected,
+                // otherwise user contacts of a certain category are selected.
                 var query = categoryId == 0
                     ? new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId", conn)
                     : new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId and \"CategoryId\"=@categoryId", conn);

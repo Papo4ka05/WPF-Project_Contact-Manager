@@ -4,18 +4,20 @@ go
 use contact_manager_db;
 go
 
-create table Categories (
-  Id int identity(1, 1) primary key,
-  Name varchar(100) not null,
-  UserId int foreign key references Users(Id) not null,
-);
 
 create table Users (
   Email varchar(100) not null,
   Id int identity(1, 1) primary key,
   Username varchar(100) not null,
+  Password varchar(100) not null,
   constraint UNQ_Email unique (Email),
   constraint UNQ_Username unique (Username)
+);
+
+create table Categories (
+  Id int identity(1, 1) primary key,
+  Name varchar(100) not null,
+  UserId int foreign key references Users(Id) not null,
 );
 
 create table Contacts (
