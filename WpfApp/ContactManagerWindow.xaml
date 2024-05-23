@@ -35,7 +35,7 @@
         <!--Add Categories-->
         <Border Grid.Column="0" Grid.Row="1">
             <StackPanel Orientation="Horizontal" Background="Aqua">
-                <Button Content="Add Categories" Margin="5"/>
+                <Button Content="Add Categories" Margin="5" Click="Button_Click"/>
                 <!--<Button Content="rtgrtgrtg" Margin="5"/>-->
             </StackPanel>
         </Border>

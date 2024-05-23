@@ -40,25 +40,25 @@ namespace ContactManager
             if (login.Length < 5)
             {
                 // ToolTip показывается подсказку при наведение мышкой на сам объект
-                TextBoxLogin.ToolTip = "Это поле введёно не корректно!";
+                TextBoxLogin.ToolTip = "This field is not entered correctly!";
                 TextBoxLogin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
                 inputError = true;
             }
             if (pass.Length < 5)
             {
-                PassBox.ToolTip = "Это поле введёно не корректно!";
+                PassBox.ToolTip = "This field is not entered correctly!";
                 PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));    //Brushes.DarkRed; (another example)
                 inputError = true;
             }
             if (pass != passRepeat)
             {
-                PassBoxRepeat.ToolTip = "Это поле введёно не корректно!";
+                PassBoxRepeat.ToolTip = "This field is not entered correctly!";
                 PassBoxRepeat.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
                 inputError = true;
             }
             if (email.Length < 5 || !email.Contains("@") || !email.Contains("."))
             {
-                TextBoxEmail.ToolTip = "Это поле введёно не корректно!";
+                TextBoxEmail.ToolTip = "This field is not entered correctly!";
                 TextBoxEmail.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
                 inputError = true;
             }
@@ -78,20 +78,27 @@ namespace ContactManager
                 TextBoxEmail.ToolTip = "";
                 TextBoxEmail.Background = Brushes.Transparent;
 
-                MessageBox.Show("Всё хорошо!");
+                MessageBox.Show("All good!");
 
                 CreateUser(login, pass, email);
+
+                Close();
+
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow();
+                contactManagerWindow.Show();
             }
         }
 
         private void Button_Window_Auth_Click(object sender, RoutedEventArgs e)
         {
+            
+
             // необходимо создать объект на основе того окна на которую нужно перейти
             AuthWindow authWindow = new AuthWindow();
             // открывает новое окно
             authWindow.Show();
-            // надо закрыть текущее окно
-            Hide();
+
+            Close();
         }
 
         public void CreateUser(string username, string password, string email)
@@ -105,6 +112,8 @@ namespace ContactManager
 
                 var query = new SqlCommand("Insert into \"Users\" (\"Username\", \"Password\", \"Email\") " +
                     $"values ('{username}', '{password}', '{email}')", connection);
+
+                // Bei der User gibts keine Password, Warum?
 
                 connection.Open();
                 query.ExecuteNonQuery();

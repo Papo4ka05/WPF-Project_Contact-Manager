@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,37 +33,29 @@ namespace ContactManager
 
             if (login.Length < 5)
             {
-                // ToolTip показывается подсказку при наведение мышкой на сам объект
-                TextBoxLogin.ToolTip = "Это поле введёно не корректно!";
+                TextBoxLogin.ToolTip = "This field is not entered correctly!";
                 TextBoxLogin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
+                return;
             }
             if (pass.Length < 5)
             {
-                PassBox.ToolTip = "Это поле введёно не корректно!";
-                PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));    //Brushes.DarkRed; (another example)
+                PassBox.ToolTip = "This field is not entered correctly!";
+                PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
+                return;
+            }
+            // Check user credentials
+            if (CheckUser(login, pass))
+            {
+                // Open ContactManagerWindow and pass user data
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(login);
+                contactManagerWindow.Show();
+                this.Close();
             }
             else
             {
-                TextBoxLogin.ToolTip = "";
-                TextBoxLogin.Background = Brushes.Transparent;
-                PassBox.ToolTip = "";
-                PassBox.Background = Brushes.Transparent;
-
-                //User authUser = null;
-                //using (ApplicationContext context db = new ApplicationContex())
-                //{
-                //    authUser = DBNull.Users.Where(b => b.Login == login && b.Pass == pass).FirstOrDefault();
-                //}
-
-                //if (authUser != null)
-                //{
-                //    MessageBox.Show("Всё хорошо!");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("Incorrect input!");
-                //}
-                
+                TextBoxLogin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
+                PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
+                MessageBox.Show("Invalid username or password!");
             }
 
         }
@@ -70,9 +64,55 @@ namespace ContactManager
         {
             RegistrationWindow registrationWindow = new RegistrationWindow();
             registrationWindow.Show();
-            Hide();
+
+            Close();
+        }
+        private bool CheckUser(string username, string password)
+        {
+            using (var connection = new SqlConnection(Properties.Settings.Default.ConnectionString))
+            {
+                string query = "SELECT COUNT(1) FROM Users WHERE Username = @Username AND Password = @Password";
+                SqlCommand cmd = new SqlCommand(query, connection);
+                cmd.Parameters.AddWithValue("@Username", username);
+                cmd.Parameters.AddWithValue("@Password", password);
+
+                connection.Open();
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count == 1;
+            }
         }
 
+        //public bool CheckUser(string username, string password)
+        //{
 
+        //    using (var connection = new SqlConnection(Properties.Settings.Default.ConnectionString))
+        //    {
+        //        if (connection == null)
+        //        {
+        //            throw new Exception("connection string is null");
+        //        }
+
+        //        var query = new SqlCommand($"Select case when exists (Select 1 from Users where Username = '{username}' AND Password = '{password}')" +
+        //            $"THEN 'true' " +
+        //            $"ELSE 'false' " +
+        //            $"END", connection);
+
+        //        connection.Open();
+
+        //        var sqlDataAdapter = new SqlDataAdapter(query);
+        //        var dataTable = new DataTable();
+        //        sqlDataAdapter.Fill(dataTable);
+
+        //        var gay = dataTable.Rows[0].ToString();
+
+        //        var userExists = Convert.ToBoolean(query.ExecuteScalar());
+
+        //        bool userExists = Convert.ToBoolean(dataTable.Rows[0].ToString());
+
+        //        return userExists;
+        //    }
+
+        //    return userExists;
+        //}
     }
 }
