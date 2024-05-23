@@ -32,16 +32,16 @@ create table Contacts (
   UserId int foreign key references Users(Id) not null,
 );
 
-insert into Users ("Email", "Username") values 
-	('peter@gmx.at', 'peter05');
+insert into Users ("Email", "Username", "Password") values 
+	('peter@gmx.at', 'peter', '12345');
 
 insert into Categories ("Name", "UserId") values 
 	--('All',	(select "Id" from "Users" where "Username" = 'peter05')), 
-	('Friends', (select "Id" from "Users" where "Username" = 'peter05')), 
-	('Family',	(select "Id" from "Users" where "Username" = 'peter05')), 
-	('Work',	(select "Id" from "Users" where "Username" = 'peter05'));
+	('Friends', (select "Id" from "Users" where "Username" = 'peter')), 
+	('Family',	(select "Id" from "Users" where "Username" = 'peter')), 
+	('Work',	(select "Id" from "Users" where "Username" = 'peter'));
 
 insert into Contacts ("FirstName", "LastName", "PhoneNumber", "CategoryId", "UserId") values 
-	('Max',		'Mustermann',	'+4912345678',	null, (select "Id" from "Users" where "Username" = 'peter05')),
-	('Nadya',	'Musterfrau',	'+4311122233',	(select "Id" from "Categories" where "Name" = 'Family'), (select "Id" from "Users" where "Username" = 'peter05')),
-	('Peter',	'Mustermann',	'+4355566688',	(select "Id" from "Categories" where "Name" = 'Family'), (select "Id" from "Users" where "Username" = 'peter05'));
+	('Max',		'Mustermann',	'+4912345678',	null, (select "Id" from "Users" where "Username" = 'peter')),
+	('Nadya',	'Musterfrau',	'+4311122233',	(select "Id" from "Categories" where "Name" = 'Family'), (select "Id" from "Users" where "Username" = 'peter')),
+	('Peter',	'Mustermann',	'+4355566688',	(select "Id" from "Categories" where "Name" = 'Family'), (select "Id" from "Users" where "Username" = 'peter'));

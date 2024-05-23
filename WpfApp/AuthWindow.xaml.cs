@@ -24,6 +24,8 @@ namespace ContactManager
         public AuthWindow()
         {
             InitializeComponent();
+
+
         }
 
         private void Button_Auth_Click(object sender, RoutedEventArgs e)
@@ -43,12 +45,17 @@ namespace ContactManager
                 PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
                 return;
             }
+            int id = CheckUser(login, pass);
             // Check user credentials
-            if (CheckUser(login, pass))
+            if (id != 0)
             {
+                UserData.Username = login;
+                UserData.Id = id;
+
                 // Open ContactManagerWindow and pass user data
-                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(login);
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow();
                 contactManagerWindow.Show();
+
                 this.Close();
             }
             else
@@ -67,18 +74,18 @@ namespace ContactManager
 
             Close();
         }
-        private bool CheckUser(string username, string password)
+        private int CheckUser(string username, string password)
         {
             using (var connection = new SqlConnection(Properties.Settings.Default.ConnectionString))
             {
-                string query = "SELECT COUNT(1) FROM Users WHERE Username = @Username AND Password = @Password";
+                string query = "SELECT Id FROM Users WHERE Username = @Username AND Password = @Password";
                 SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@Username", username);
                 cmd.Parameters.AddWithValue("@Password", password);
 
                 connection.Open();
                 int count = Convert.ToInt32(cmd.ExecuteScalar());
-                return count == 1;
+                return count;
             }
         }
 

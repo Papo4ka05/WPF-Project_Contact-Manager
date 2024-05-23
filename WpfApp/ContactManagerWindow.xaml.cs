@@ -19,19 +19,23 @@ namespace ContactManager
     /// </summary>
     public partial class ContactManagerWindow : Window
     {
-        public User User { get; set; }
-
         public ContactManagerWindow()
         {
             InitializeComponent();
 
-            _username = username;
-
+            var lol = UserData.Username;
             // Load user-specific data based on _username
             LoadUserData();
         }
         private void LoadUserData()
         {
+            
+            var repository = new ContactRepository(/*UserData.Id*/1, 0);
+            UserCategories.ItemsSource = repository.Categories;
+            UserContacts.ItemsSource = repository.Contacts;
+
+            BoxLol.Text = UserData.Username;
+
             // Use _username to load data from the database
             // For example:
             // string query = "SELECT * FROM Contacts WHERE UserId = (SELECT Id FROM Users WHERE Username = @Username)";
@@ -41,6 +45,18 @@ namespace ContactManager
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void UserCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UserCategories.SelectedItem != null)
+            {
+                
+                int idCategories = (UserCategories.SelectedItem as Category).Id;
+                var repository = new ContactRepository(/*UserData.Id*/1, idCategories);
+                UserContacts.ItemsSource = repository.Contacts;
+
+            }
         }
     }
 }

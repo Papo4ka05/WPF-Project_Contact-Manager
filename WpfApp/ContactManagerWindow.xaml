@@ -39,12 +39,23 @@
                 <!--<Button Content="rtgrtgrtg" Margin="5"/>-->
             </StackPanel>
         </Border>
+        
+        
         <!-- Categories Listbox-->
-        <Border Grid.Column="0" Grid.Row="2" Grid.RowSpan="3">
-            <ListBox Margin="10">
-                <ListBoxItem>Category 1</ListBoxItem>
-                <ListBoxItem>Category 2</ListBoxItem>
-                <ListBoxItem>Category 3</ListBoxItem>
+        <Border Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="0,0,0,-300">
+            <ListBox Name="UserCategories" Margin="10" SelectionChanged="UserCategories_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--<Grid Margin="0,2">
+                            --><!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>--><!--
+                            <TextBlock Text="{Binding Name}" />
+                        </Grid>-->
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Border>
 
@@ -55,21 +66,30 @@
             <Button Content="Home" MinWidth="50" MinHeight="50"/>
             <Button Content="Options" MinWidth="50" MinHeight="50"/>
             <Button Content="Info" MinWidth="50" MinHeight="50"/>
+            <TextBlock Name="BoxLol" Margin="10" Width="100" />
         </StackPanel>
 
 
         <!-- Main part for the contacts (how to use DB right?)-->
-        <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="1" Margin="10">
+        <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="1" Margin="10,10,10,-300" Grid.RowSpan="2">
 
-            <ListBox Margin="10">
-                <ListBoxItem>Category 1</ListBoxItem>
-                <ListBoxItem>Category 2</ListBoxItem>
-                <ListBoxItem>Category 3</ListBoxItem>
+            <ListBox Name="UserContacts" Margin="10">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding PhoneNumber}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Border>
 
         <!-- Buttom Pages -->
-        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
+        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
             <Button Content="1" Margin="5"/>
             <Button Content="2" Margin="5"/>
             <Button Content="3" Margin="5"/>

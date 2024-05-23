@@ -74,6 +74,7 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\ContactRepository.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserData.cs" />
     <Compile Include="RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
