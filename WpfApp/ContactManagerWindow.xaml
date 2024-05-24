@@ -35,7 +35,8 @@
         <!--Add Categories-->
         <Border Grid.Column="0" Grid.Row="1">
             <StackPanel Orientation="Horizontal" Background="Aqua">
-                <Button Content="Add Categories" Margin="5" Click="Button_Click"/>
+                <Button Content="Add Category" Margin="5" Click="Create_Category"/>
+                <Button Content="Add Contact" Margin="5" Click="Create_Contact"/>
                 <!--<Button Content="rtgrtgrtg" Margin="5"/>-->
             </StackPanel>
         </Border>
@@ -43,17 +44,36 @@
         
         <!-- Categories Listbox-->
         <Border Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="0,0,0,-300">
-            <ListBox Name="UserCategories" Margin="10" SelectionChanged="UserCategories_SelectionChanged">
+            <ListBox Name="lbCategories" Margin="10" SelectionChanged="Categories_SelectionChanged" SelectedIndex="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <!--<Grid Margin="0,2">
-                            --><!--<Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>--><!--
-                            <TextBlock Text="{Binding Name}" />
-                        </Grid>-->
-                        <TextBlock Text="{Binding Name}" />
+                        <StackPanel Name="SomeLabel" Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" Width="100"/>
+                            <Button Name="ChangeButton" Click="Change_Category" Content="Change" Tag="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SomeLabel}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Name="DeleteButton" Click="Delete_Category" Content="Delete" Tag="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SomeLabel}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -72,28 +92,40 @@
 
         <!-- Main part for the contacts (how to use DB right?)-->
         <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="1" Margin="10,10,10,-300" Grid.RowSpan="2">
-
-            <ListBox Name="UserContacts" Margin="10">
+            <ListBox Name="lbContacts" Margin="10">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="0,2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
+                        <!-- TODO Spalten -->
+                        <StackPanel Name="SomeLabel" Orientation="Horizontal">
                             <TextBlock Text="{Binding PhoneNumber}" />
-                        </Grid>
+                            <Button Name="ChangeButton" Click="Change_Contact" Content="Change" Tag="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SomeLabel}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Name="DeleteButton" Click="Delete_Contact" Content="Delete" Tag="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=SomeLabel}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-
-        <!-- Buttom Pages -->
-        <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">
-            <Button Content="1" Margin="5"/>
-            <Button Content="2" Margin="5"/>
-            <Button Content="3" Margin="5"/>
-            <Button Content="Дальше >" Margin="5"/>
-        </StackPanel>
     </Grid>
 </Window>

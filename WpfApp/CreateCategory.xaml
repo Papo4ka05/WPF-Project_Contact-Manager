@@ -1,0 +1,17 @@
+﻿<Window x:Class="ContactManager.CreateCategory"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager"
+        mc:Ignorable="d"
+        Title="CreateCategory" Height="160" Width="270">
+    <Grid Margin="0,46,0,0">
+        <TextBlock Height="22" Margin="15,-42,15,118"><Run Text="Create new category"/></TextBlock>
+        <StackPanel HorizontalAlignment="Center" Width="221" Margin="0,0,0,10">
+            <Label Content="_Name:" />
+            <TextBox x:Name="tbName" />
+            <Button Content="_Create" Click="Create_Category"/>
+        </StackPanel>
+    </Grid>
+</Window>

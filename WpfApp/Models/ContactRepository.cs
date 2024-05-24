@@ -5,16 +5,24 @@ using System.Data.SqlClient;
 
 namespace ContactManager
 {
-    public class ContactRepository
+    public interface IContactRepository
     {
-        public ContactRepository(int userId, int categoryId)
-        {
-            Categories = GetCategories(userId);
-            Contacts = GetContacts(userId, categoryId);
-        }
+        void Create(Contact contact);
 
-        public List<Category> Categories { get; set; } = new List<Category>();
-        public List<Contact> Contacts { get; set; } = new List<Contact>();
+        void Delete(int contactId);
+
+        ICollection<Contact> GetFilteredList(int userId, string filter);
+
+        ICollection<Contact> GetList(int userId, int categoryId);
+
+        void Update(Contact contact);
+    }
+
+    public class ContactRepository : IContactRepository
+    {
+        public ContactRepository()
+        {
+        }
 
         /// <summary>Create contact</summary>
         public void Create(Contact contact)
@@ -34,21 +42,29 @@ namespace ContactManager
                 }
 
                 // Create an SQL query to insert a new contact into the ‘Contacts’ table using the prepared parameters
-                var query = new SqlCommand(@"insert into ""Contacts"" (""FirstName"", ""LastName"", ""PhoneNumber"", ""DateOfBirth"", ""Email"", ""Note"", ""CategoryId"")
-                    values (@firstName, @lastName, @phoneNumber, @dateOfBirth, @email, @note, @categoryId);", conn);
+                var query = new SqlCommand(@"insert into ""Contacts"" (""FirstName"", ""LastName"", ""PhoneNumber"", ""DateOfBirth"", ""Email"", ""Note"", ""CategoryId"", ""UserId"")
+                    values (@firstName, @lastName, @phoneNumber, @dateOfBirth, @email, @note, @categoryId, @userId);", conn);
 
                 conn.Open();
 
                 // Add parameters to the request using values from the contact
+                SqlParameter categoryIdParam = query.Parameters.AddWithValue("@categoryId", contact.CategoryId);
+                if (contact.CategoryId == null)
+                {
+                    categoryIdParam.Value = DBNull.Value;
+                }
+
+                SqlParameter dateOfBirthParam = query.Parameters.AddWithValue("@dateOfBirth", contact.DateOfBirth);
+                if (contact.DateOfBirth == null)
+                {
+                    dateOfBirthParam.Value = DBNull.Value;
+                }
+
                 query.Parameters.AddRange(new[]
                 {
-                    new SqlParameter("categoryId", SqlDbType.Int)
+                    new SqlParameter("userId", SqlDbType.Int)
                     {
-                        Value = contact.CategoryId
-                    },
-                    new SqlParameter("dateOfBirth", SqlDbType.Date)
-                    {
-                        Value = contact.DateOfBirth
+                        Value = contact.UserId
                     },
                     new SqlParameter("email", SqlDbType.VarChar)
                     {
@@ -102,114 +118,8 @@ namespace ContactManager
             }
         }
 
-        /// <summary>Get categories</summary>
-        public List<Category> GetCategories(int userId)
-        {
-            var categories = new List<Category>();
-
-            using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
-            {
-                if (conn == null)
-                {
-                    throw new Exception("connection string is null");
-                }
-
-                var query = new SqlCommand("select * from \"Categories\" order by \"Name\"", conn);
-                //var query = new SqlCommand("select * from \"Categories\" where \"UserId\"=@userId", conn);
-                //query.Parameters.Add(new SqlParameter("userId", SqlDbType.Int)
-                //{
-                //    Value = userId
-                //});
-
-                conn.Open();
-
-                // SqlDataAdapter используется для заполнения DataTable данными из источника данных,
-                // в данном случае - из результата SQL-запроса к базе данных.Он предоставляет интерфейс для выполнения операций
-                // с базой данных, таких как выборка, вставка, обновление и удаление данных.
-
-                // It is used to execute a query request to the database
-                // A SqlDataAdapter which is used to fill the DataTable with data obtained from the result of the query execution.
-                var sqlDataAdapter = new SqlDataAdapter(query);
-                var dataTable = new DataTable();
-                sqlDataAdapter.Fill(dataTable);
-
-                categories.Add(new Category
-                {
-                    Id = 0,
-                    Name = "All",
-                });
-
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    categories.Add(new Category
-                    {
-                        Id = int.Parse(row["Id"].ToString()),
-                        Name = row["Name"].ToString(),
-                    });
-                }
-            }
-
-            return categories;
-        }
-
-        /// <summary>Get contacts</summary>
-        public List<Contact> GetContacts(int userId, int categoryId)
-        {
-            var contacts = new List<Contact>();
-
-            using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
-            {
-                if (conn == null)
-                {
-                    throw new Exception("connection string is null");
-                }
-
-                // If categoryId is 0, all user contacts are selected,
-                // otherwise user contacts of a certain category are selected.
-                var query = categoryId == 0
-                    ? new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId", conn)
-                    : new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId and \"CategoryId\"=@categoryId", conn);
-                
-                query.Parameters.Add(new SqlParameter("userId", SqlDbType.Int)
-                {
-                    Value = userId
-                });
-
-                if (categoryId != 0)
-                {
-                    query.Parameters.Add(new SqlParameter("categoryId", SqlDbType.Int)
-                    {
-                        Value = categoryId
-                    });
-                }
-
-                conn.Open();
-
-                var sqlDataAdapter = new SqlDataAdapter(query);
-                var dataTable = new DataTable();
-                sqlDataAdapter.Fill(dataTable);
-
-                foreach (DataRow row in dataTable.Rows)
-                {
-                    contacts.Add(new Contact
-                    {
-                        CategoryId = int.TryParse(row["CategoryId"].ToString(), out var cId) ? (int?)cId : null,
-                        DateOfBirth = DateTime.TryParse(row["DateOfBirth"].ToString(), out var dateOfBirth) ? (DateTime?)dateOfBirth : null,
-                        Email = row["Email"].ToString(),
-                        FirstName = row["FirstName"].ToString(),
-                        Id = int.Parse(row["Id"].ToString()),
-                        LastName = row["LastName"].ToString(),
-                        Note = row["Note"].ToString(),
-                        PhoneNumber = row["PhoneNumber"].ToString(),
-                    });
-                }
-            }
-
-            return contacts;
-        }
-
         /// <summary>Get filtered contacts</summary>
-        public List<Contact> GetContactsBySearch(int userId, string filter)
+        public ICollection<Contact> GetFilteredList(int userId, string filter)
         {
             var contacts = new List<Contact>();
 
@@ -265,6 +175,63 @@ namespace ContactManager
             }
         }
 
+        /// <summary>Get contacts</summary>
+        public ICollection<Contact> GetList(int userId, int categoryId)
+        {
+            var contacts = new List<Contact>();
+
+            using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
+            {
+                if (conn == null)
+                {
+                    throw new Exception("connection string is null");
+                }
+
+                // If categoryId is 0, all user contacts are selected,
+                // otherwise user contacts of a certain category are selected.
+                var query = categoryId == 0
+                    ? new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId", conn)
+                    : new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId and \"CategoryId\"=@categoryId", conn);
+
+                query.Parameters.Add(new SqlParameter("userId", SqlDbType.Int)
+                {
+                    Value = userId
+                });
+
+                if (categoryId != 0)
+                {
+                    query.Parameters.Add(new SqlParameter("categoryId", SqlDbType.Int)
+                    {
+                        Value = categoryId
+                    });
+                }
+
+                conn.Open();
+
+                var sqlDataAdapter = new SqlDataAdapter(query);
+                var dataTable = new DataTable();
+                sqlDataAdapter.Fill(dataTable);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    contacts.Add(new Contact
+                    {
+                        CategoryId = int.TryParse(row["CategoryId"].ToString(), out var cId) ? (int?)cId : null,
+                        DateOfBirth = DateTime.TryParse(row["DateOfBirth"].ToString(), out var dateOfBirth) ? (DateTime?)dateOfBirth : null,
+                        Email = row["Email"].ToString(),
+                        FirstName = row["FirstName"].ToString(),
+                        Id = int.Parse(row["Id"].ToString()),
+                        LastName = row["LastName"].ToString(),
+                        Note = row["Note"].ToString(),
+                        PhoneNumber = row["PhoneNumber"].ToString(),
+                        UserId = int.Parse(row["UserId"].ToString()),
+                    });
+                }
+            }
+
+            return contacts;
+        }
+
         /// <summary>Update contact</summary>
         public void Update(Contact contact)
         {
@@ -289,14 +256,23 @@ namespace ContactManager
 
                 conn.Open();
 
-                query.Parameters.AddRange(new[] {
-                    new SqlParameter("categoryId", SqlDbType.Int)
+                SqlParameter categoryIdParam = query.Parameters.AddWithValue("@categoryId", contact.CategoryId);
+                if (contact.CategoryId == null)
+                {
+                    categoryIdParam.Value = DBNull.Value;
+                }
+
+                SqlParameter dateOfBirthParam = query.Parameters.AddWithValue("@dateOfBirth", contact.DateOfBirth);
+                if (contact.DateOfBirth == null)
+                {
+                    dateOfBirthParam.Value = DBNull.Value;
+                }
+
+                query.Parameters.AddRange(new[]
+                {
+                    new SqlParameter("userId", SqlDbType.Int)
                     {
-                        Value = contact.CategoryId
-                    },
-                    new SqlParameter("dateOfBirth", SqlDbType.Date)
-                    {
-                        Value = contact.DateOfBirth
+                        Value = contact.UserId
                     },
                     new SqlParameter("email", SqlDbType.VarChar)
                     {

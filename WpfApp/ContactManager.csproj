@@ -67,11 +67,24 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ChangeCategory.xaml.cs">
+      <DependentUpon>ChangeCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChangeContact.xaml.cs">
+      <DependentUpon>ChangeContact.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ContactManagerWindow.xaml.cs">
       <DependentUpon>ContactManagerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CreateCategory.xaml.cs">
+      <DependentUpon>CreateCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreateContact.xaml.cs">
+      <DependentUpon>CreateContact.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\CategoryRepository.cs" />
     <Compile Include="Models\ContactRepository.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserData.cs" />
@@ -86,22 +99,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ChangeCategory.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ChangeContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ContactManagerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="CreateCategory.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="CreateContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RegistrationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,62 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace ContactManager
 {
-    /// <summary>
-    /// Interaktionslogik für ContactManagerWindow.xaml
-    /// </summary>
     public partial class ContactManagerWindow : Window
     {
+        private readonly ICategoryRepository categoryRepository;
+        private readonly IContactRepository contactRepository;
+        private int categoryId = 0;
+
         public ContactManagerWindow()
         {
             InitializeComponent();
 
-            var lol = UserData.Username;
-            // Load user-specific data based on _username
-            LoadUserData();
-        }
-        private void LoadUserData()
-        {
-            
-            var repository = new ContactRepository(/*UserData.Id*/1, 0);
-            UserCategories.ItemsSource = repository.Categories;
-            UserContacts.ItemsSource = repository.Contacts;
+            categoryRepository = new CategoryRepository();
+            contactRepository = new ContactRepository();
+
+            // TODO temporaly
+            UserData.Id = 1;
+
+            lbCategories.ItemsSource = categoryRepository.GetList(UserData.Id);
+            lbContacts.ItemsSource = contactRepository.GetList(UserData.Id, categoryId);
 
             BoxLol.Text = UserData.Username;
-
-            // Use _username to load data from the database
-            // For example:
-            // string query = "SELECT * FROM Contacts WHERE UserId = (SELECT Id FROM Users WHERE Username = @Username)";
-            // Load contacts and display them in the UI
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Categories_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-        }
-
-        private void UserCategories_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (UserCategories.SelectedItem != null)
+            if (lbCategories.SelectedItem != null)
             {
-                
-                int idCategories = (UserCategories.SelectedItem as Category).Id;
-                var repository = new ContactRepository(/*UserData.Id*/1, idCategories);
-                UserContacts.ItemsSource = repository.Contacts;
-
+                // temporäre Lösung
+                categoryId = (lbCategories.SelectedItem as Category)?.Id ?? 0;
+                lbContacts.ItemsSource = contactRepository.GetList(UserData.Id, categoryId);
             }
+        }
+
+        private void Change_Category(object sender, RoutedEventArgs e)
+        {
+            Category category = ((Button)sender).Tag as Category;
+            var changeCategoryWindow = new ChangeCategory(categoryRepository, category);
+            changeCategoryWindow.ShowDialog();
+
+            lbCategories.ItemsSource = categoryRepository.GetList(UserData.Id);
+        }
+
+        private void Change_Contact(object sender, RoutedEventArgs e)
+        {
+            Contact contact = ((Button)sender).Tag as Contact;
+            var changeContactWindow = new ChangeContact(contactRepository, contact, lbCategories.ItemsSource as ICollection<Category>);
+            changeContactWindow.ShowDialog();
+
+            lbContacts.ItemsSource = contactRepository.GetList(UserData.Id, categoryId);
+        }
+
+        private void Create_Category(object sender, RoutedEventArgs e)
+        {
+            var createCategoryWindow = new CreateCategory(categoryRepository);
+            createCategoryWindow.ShowDialog();
+
+            lbCategories.ItemsSource = categoryRepository.GetList(UserData.Id);
+        }
+
+        private void Create_Contact(object sender, RoutedEventArgs e)
+        {
+            var createContactWindow = new CreateContact(contactRepository, lbCategories.ItemsSource as ICollection<Category>);
+            createContactWindow.ShowDialog();
+
+            lbContacts.ItemsSource = contactRepository.GetList(UserData.Id, categoryId);
+        }
+
+        private void Delete_Category(object sender, RoutedEventArgs e)
+        {
+            var deletCategoryId = (((Button)sender).Tag as Category).Id;
+            categoryRepository.Delete(deletCategoryId);
+
+            categoryId = categoryId == deletCategoryId ? 0 : categoryId;
+
+            lbCategories.ItemsSource = categoryRepository.GetList(UserData.Id);
+        }
+
+        private void Delete_Contact(object sender, RoutedEventArgs e)
+        {
+            var deleteContactId = (((Button)sender).Tag as Contact).Id;
+            contactRepository.Delete(deleteContactId);
+
+            lbContacts.ItemsSource = contactRepository.GetList(UserData.Id, categoryId);
         }
     }
 }

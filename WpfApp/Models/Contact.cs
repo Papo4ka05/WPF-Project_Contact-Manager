@@ -12,5 +12,6 @@ namespace ContactManager
         public string LastName { get; set; }
         public string Note { get; set; }
         public string PhoneNumber { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -1,0 +1,38 @@
+﻿<Window x:Class="ContactManager.CreateContact"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactManager"
+        mc:Ignorable="d"
+        Title="CreateContact" Height="400" Width="250">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Height="22"><Run Text="Create contact"/></TextBlock>
+            <Label Content="_Category:" Width="180" />
+            <ComboBox Name="cmbCategories">
+                <!--<ComboBoxItem IsSelected="True">None</ComboBoxItem>-->
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="_Phone:" Width="180" />
+            <TextBox x:Name="tbPhone" Width="180" />
+            <Label Content="_First name:" Width="180" />
+            <TextBox x:Name="tbFirstName" Width="180" />
+            <Label Content="_Last name:" Width="180" />
+            <TextBox x:Name="tbLastName" Width="180" />
+            <Label Content="_Email:" Width="180" />
+            <TextBox x:Name="tbEmail" Width="180" />
+            <Label Content="_Date of birth:" Width="180" />
+            <TextBox x:Name="tbDateOfBirth" Width="180" />
+            <Label Content="_Note:" Width="180" />
+            <TextBox x:Name="tbNote" Width="180" />
+            <Button Content="_Create" Click="Create" Width="100" />
+        </StackPanel>
+    </Grid>
+</Window>
