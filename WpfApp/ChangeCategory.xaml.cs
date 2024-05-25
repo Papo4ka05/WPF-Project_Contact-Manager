@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ContactManager
 {
@@ -22,7 +21,9 @@ namespace ContactManager
         {
             if (string.IsNullOrEmpty(tbName.Text))
             {
-                throw new Exception("name is empty");
+                MessageBox.Show("name is empty", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                return;
             }
 
             categoryRepository.Update(category.Id, tbName.Text);

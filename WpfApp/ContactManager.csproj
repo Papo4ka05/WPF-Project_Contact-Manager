@@ -167,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ContactManager.sql" />
+    <Resource Include="Static\add.png" />
+    <Resource Include="Static\delete.png" />
+    <Resource Include="Static\edit.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Foto\" />

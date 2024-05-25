@@ -84,7 +84,8 @@ namespace ContactManager
 
                 Close();
 
-                ContactManagerWindow contactManagerWindow = new ContactManagerWindow();
+                // TODO userId fehlt
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(1, login);
                 contactManagerWindow.Show();
             }
         }
@@ -107,7 +108,7 @@ namespace ContactManager
             {
                 if (connection == null)
                 {
-                    throw new Exception("connection string is null");
+                    MessageBox.Show("connection is null", "Database connection", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
                 var query = new SqlCommand("Insert into \"Users\" (\"Username\", \"Password\", \"Email\") " +
@@ -127,7 +128,7 @@ namespace ContactManager
             {
                 if (connection == null)
                 {
-                    throw new Exception("connection string is null");
+                    MessageBox.Show("connection is null", "Database connection", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
 
                 var query = new SqlCommand($"Select case when exists (Select 1 from Users where Username = '{username}' or Email = '{email}')" +

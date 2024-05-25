@@ -49,11 +49,11 @@ namespace ContactManager
             // Check user credentials
             if (id != 0)
             {
-                UserData.Username = login;
-                UserData.Id = id;
+                //UserData.Username = login;
+                //UserData.Id = id;
 
                 // Open ContactManagerWindow and pass user data
-                ContactManagerWindow contactManagerWindow = new ContactManagerWindow();
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(id, login);
                 contactManagerWindow.Show();
 
                 this.Close();
@@ -96,7 +96,7 @@ namespace ContactManager
         //    {
         //        if (connection == null)
         //        {
-        //            throw new Exception("connection string is null");
+        //            MessageBox.Show("connection is null", "Database connection", MessageBoxButton.OK, MessageBoxImage.Warning);
         //        }
 
         //        var query = new SqlCommand($"Select case when exists (Select 1 from Users where Username = '{username}' AND Password = '{password}')" +

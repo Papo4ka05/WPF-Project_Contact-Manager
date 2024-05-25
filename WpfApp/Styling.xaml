@@ -1,6 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--<Style TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="#8643D6"/>
+    </Style>-->
+    
     <!-- Styles for TextBox and PasswordBox -->
     <Style x:Key="InputStyle" TargetType="Control">
         <Setter Property="BorderBrush" Value="Gray"/>
@@ -26,5 +30,27 @@
             </Trigger>
         </Style.Triggers>
 
+    </Style>
+
+    <Style x:Key="IconButtonListBoxStyle" TargetType="Button">
+        <Setter Property="Width" Value="20px"/>
+        <Setter Property="Height" Value="20px"/>
+        <Setter Property="Visibility" Value="Hidden" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, ElementName=ActionItem}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="IconButtonListViewStyle" TargetType="Button">
+        <Setter Property="Width" Value="20px"/>
+        <Setter Property="Height" Value="20px"/>
+        <Setter Property="Visibility" Value="Hidden" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=ListViewItem}}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

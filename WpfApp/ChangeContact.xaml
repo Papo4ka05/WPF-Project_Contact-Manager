@@ -29,7 +29,7 @@
             <Label Content="_Email:" Width="180" />
             <TextBox x:Name="tbEmail" Width="180" />
             <Label Content="_Date of birth:" Width="180" />
-            <TextBox x:Name="tbDateOfBirth" Width="180" />
+            <DatePicker x:Name="dpDateOfBirth" SelectedDateFormat="Short" />
             <Label Content="_Note:" Width="180" />
             <TextBox x:Name="tbNote" Width="180" />
             <Button Content="_Change" Click="Change" Width="100" />

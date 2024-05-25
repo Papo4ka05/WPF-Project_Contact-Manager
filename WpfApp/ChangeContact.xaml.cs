@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -25,8 +24,7 @@ namespace ContactManager
                 cmbCategories.SelectedItem = categories.First(c => c.Id == contact.CategoryId);
             }
 
-            // TODO date format
-            tbDateOfBirth.Text = contact.DateOfBirth.ToString();
+            dpDateOfBirth.SelectedDate = contact.DateOfBirth;
             tbEmail.Text = contact.Email;
             tbFirstName.Text = contact.FirstName;
             tbLastName.Text = contact.LastName;
@@ -36,20 +34,11 @@ namespace ContactManager
 
         private void Change(object sender, RoutedEventArgs e)
         {
-            DateTime? dateOfBirth = null;
-
             if (string.IsNullOrEmpty(tbPhone.Text))
             {
-                throw new Exception("phone is empty");
-            }
+                MessageBox.Show("phone is empty", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
 
-            if (!string.IsNullOrEmpty(tbDateOfBirth.Text))
-            {
-                var dateParsed = DateTime.TryParse(tbDateOfBirth.Text, out DateTime date);
-                if (!dateParsed)
-                {
-                    throw new Exception("date not parsed");
-                }
+                return;
             }
 
             int? categoryId = (cmbCategories.SelectedItem as Category)?.Id;
@@ -57,7 +46,8 @@ namespace ContactManager
             var changeContact = new Contact
             {
                 CategoryId = categoryId == 0 ? null : categoryId,
-                DateOfBirth = dateOfBirth,
+                // TODO null wenn Text eingegeben wurde
+                DateOfBirth = dpDateOfBirth.SelectedDate,
                 Email = tbEmail.Text,
                 FirstName = tbFirstName.Text,
                 LastName = tbLastName.Text,

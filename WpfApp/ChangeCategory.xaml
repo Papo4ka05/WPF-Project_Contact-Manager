@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"
-        Title="ChangeCategory" Height="140" Width="200">
+        Title="ChangeCategory" Height="200" Width="270">
     <Grid>
-        <StackPanel HorizontalAlignment="Center" Width="200">
-            <TextBlock Height="22"><Run Text="Change category"/></TextBlock>
+        <StackPanel HorizontalAlignment="Center">
+            <TextBlock Height="20">Change category</TextBlock>
             <Label Content="_Name:" Width="180" />
-            <TextBox x:Name="tbName" Width="180" />
-            <Button Content="_Change" Click="Change" Width="100" />
+            <TextBox Style="{StaticResource InputStyle}" x:Name="tbName" Width="180" />
+            <Button Style="{StaticResource ButtonStyle}" Content="_Change" Click="Change" Width="100" />
         </StackPanel>
     </Grid>
 </Window>
