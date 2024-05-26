@@ -4,10 +4,10 @@ namespace ContactManager
 {
     public partial class CreateCategory : Window
     {
-        private readonly ICategoryRepository categoryRepository;
+        private readonly CategoryRepository categoryRepository;
         private readonly int userId;
 
-        public CreateCategory(ICategoryRepository categoryRepository, int userId)
+        public CreateCategory(CategoryRepository categoryRepository, int userId)
         {
             InitializeComponent();
 

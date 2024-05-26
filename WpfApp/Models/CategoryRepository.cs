@@ -6,18 +6,7 @@ using System.Windows;
 
 namespace ContactManager
 {
-    public interface ICategoryRepository
-    {
-        void Create(int userId, string name);
-
-        void Delete(int categoryId);
-
-        ICollection<Category> GetList(int userId);
-
-        void Update(int categoryId, string name);
-    }
-
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository
     {
         public CategoryRepository()
         {

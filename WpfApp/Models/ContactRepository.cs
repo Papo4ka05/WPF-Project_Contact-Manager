@@ -6,20 +6,8 @@ using System.Windows;
 
 namespace ContactManager
 {
-    public interface IContactRepository
-    {
-        void Create(Contact contact);
 
-        void Delete(int contactId);
-
-        ICollection<Contact> GetFilteredList(int userId, string filter);
-
-        ICollection<Contact> GetList(int userId, int categoryId);
-
-        void Update(Contact contact);
-    }
-
-    public class ContactRepository : IContactRepository
+    public class ContactRepository
     {
         public ContactRepository()
         {
@@ -224,8 +212,8 @@ namespace ContactManager
                     // If categoryId is 0, all user contacts are selected,
                     // otherwise user contacts of a certain category are selected.
                     var query = categoryId == 0
-                        ? new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId", conn)
-                        : new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId and \"CategoryId\"=@categoryId", conn);
+                        ? new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId order by \"LastName\"", conn)
+                        : new SqlCommand("select * from \"Contacts\" where \"UserId\"=@userId and \"CategoryId\"=@categoryId order by \"LastName\"", conn);
 
                     query.Parameters.Add(new SqlParameter("userId", SqlDbType.Int)
                     {

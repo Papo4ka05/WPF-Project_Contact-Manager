@@ -15,7 +15,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="20px"/>
+            <RowDefinition Height="70px"/>
             <RowDefinition Height="20px"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
@@ -44,11 +44,42 @@
 
         <!-- Right Side the window-->
         <!-- Icon Buttons -->
-        <StackPanel Margin="20" Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <!--<StackPanel Margin="20" Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Button Content="Home" MinWidth="50" />
             <Button Content="Options" MinWidth="50" />
             <Button Content="Info" MinWidth="50" />
-        </StackPanel>
+        </StackPanel>-->
+
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="LightGray" Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0">First Name:</Label>
+                <TextBlock Name="tb_FirstName" Grid.Column="1" VerticalAlignment="Center"/>
+                <Label Grid.Column="2">Birthday:</Label>
+                <TextBlock Name="tb_LastName" Grid.Column="3" VerticalAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="1">Last Name:</Label>
+                <TextBlock Name="tb_Birthday" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
+                <Label Grid.Column="2" Grid.Row="1">Phone Number:</Label>
+                <TextBlock Name="tb_PhoneNumber" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="2">Email:</Label>
+                <TextBlock Name="tb_Email" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
+                <Label Grid.Column="2" Grid.Row="2">Category:</Label>
+                <TextBlock Name="tb_Category" Grid.Column="3" Grid.Row="2" VerticalAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="3">Note:</Label>
+                <TextBlock Name="tb_Note" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
 
         <!-- Category title -->
         <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="1">
@@ -127,7 +158,7 @@
 
         <!-- Contacts ListView-->
         <Grid Grid.Column="1" Grid.Row="3" >
-            <ListView  Name="lbContacts" Margin="10" HorizontalContentAlignment="Stretch">
+            <ListView  Name="lbContacts" Margin="10" HorizontalContentAlignment="Stretch" SelectionChanged="lbContacts_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding PhoneNumber}" />

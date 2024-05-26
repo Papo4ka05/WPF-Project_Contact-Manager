@@ -5,10 +5,10 @@ namespace ContactManager
 {
     public partial class CreateContact : Window
     {
-        private readonly IContactRepository contactRepository;
+        private readonly ContactRepository contactRepository;
         private readonly int userId = 0;
 
-        public CreateContact(IContactRepository contactRepository, ICollection<Category> categories, int userId)
+        public CreateContact(ContactRepository contactRepository, ICollection<Category> categories, int userId)
         {
             InitializeComponent();
             this.contactRepository = contactRepository;

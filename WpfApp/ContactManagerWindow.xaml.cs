@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,13 +8,14 @@ namespace ContactManager
 {
     public partial class ContactManagerWindow : Window
     {
-        private readonly ICategoryRepository categoryRepository;
-        private readonly IContactRepository contactRepository;
+        private readonly CategoryRepository categoryRepository;
+        private readonly ContactRepository contactRepository;
         private int categoryId = 0;
+        private int contactId = 0;
         private readonly int userId = 0;
         private readonly string username = string.Empty;
 
-        // TODO temporäre Lösung
+        // TODO temporäre Lösung        //          //          ////        //      //
         public ContactManagerWindow()
         {
             InitializeComponent();
@@ -37,8 +40,7 @@ namespace ContactManager
             categoryRepository = new CategoryRepository();
             contactRepository = new ContactRepository();
 
-            // TODO temporär
-            this.userId = 1;
+            this.userId = userId;
             this.username = username;
 
             lbCategories.ItemsSource = categoryRepository.GetList(userId);
@@ -62,10 +64,20 @@ namespace ContactManager
             var changeCategoryWindow = new ChangeCategory(categoryRepository, category);
             changeCategoryWindow.ShowDialog();
 
-            // TODO categoryId stimmt nicht mehr, temporär wird Id auf 0 gesetzt. Alternative: nach Guid ergänzen
-            lbCategories.ItemsSource = categoryRepository.GetList(userId);
-            categoryId = 0;
-            lbCategories.SelectedIndex = categoryId;
+            List<Category> categories = (categoryRepository.GetList(userId)).ToList();
+            int indexCategory = categories.Select(item => item.Id).ToList().IndexOf(categoryId);
+            //foreach (var item in categories)
+            //{
+            //    if (item.Id == categoryId)
+            //    {
+            //        return item.Id;
+            //    }
+            //}
+            //int oldIndex = lbCategories.SelectedIndex;
+            lbCategories.ItemsSource = categories;
+
+            lbCategories.SelectedIndex = indexCategory;
+            
         }
 
         private void Change_Contact(object sender, RoutedEventArgs e)
@@ -82,10 +94,11 @@ namespace ContactManager
             var createCategoryWindow = new CreateCategory(categoryRepository, userId);
             createCategoryWindow.ShowDialog();
 
-            // TODO categoryId stimmt nicht mehr, temporär wird Id auf 0 gesetzt. Alternative: nach Guid ergänzen
-            lbCategories.ItemsSource = categoryRepository.GetList(userId);
-            categoryId = 0;
-            lbCategories.SelectedIndex = categoryId;
+            List<Category> categories = (categoryRepository.GetList(userId)).ToList();
+            int indexCategory = categories.Select(item => item.Id).ToList().IndexOf(categoryId);
+            lbCategories.ItemsSource = categories;
+
+            lbCategories.SelectedIndex = indexCategory;
         }
 
         private void Create_Contact(object sender, RoutedEventArgs e)
@@ -113,6 +126,52 @@ namespace ContactManager
             contactRepository.Delete(deleteContactId);
 
             lbContacts.ItemsSource = contactRepository.GetList(userId, categoryId);
+
+            if (contactId == deleteContactId)
+            {
+                tb_FirstName.Text = null;
+                tb_LastName.Text = null;
+                tb_Birthday.Text = null;
+                tb_PhoneNumber.Text = null;
+                tb_Email.Text = null;
+                tb_Note.Text = null;
+                tb_Category.Text = null;
+            }
+        }
+
+        private void lbContacts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lbContacts.SelectedItem != null)
+            {
+                Contact contact = (lbContacts.SelectedItem as Contact);
+
+                contactId = contact?.Id ?? 0 ; 
+
+                if (contact != null)
+                {
+
+
+                    if (contact.CategoryId != null)
+                    {
+                        List<Category> categories = (categoryRepository.GetList(userId)).ToList();
+                        Category category = categories.Where(item => item.Id == contact.CategoryId).First();
+
+                        tb_Category.Text = category.Name;
+                    }
+                    else
+                    {
+                        tb_Category.Text = null;
+                    }
+
+                    tb_FirstName.Text = contact.FirstName;
+                    tb_LastName.Text = contact.LastName;
+                    tb_Birthday.Text = contact.DateOfBirth.HasValue ? contact.DateOfBirth.Value.ToString("dd.MM.yyyy"): string.Empty;
+                    tb_PhoneNumber.Text = contact.PhoneNumber;
+                    tb_Email.Text = contact.Email;
+                    tb_Note.Text = contact.Note;
+                }
+            }
+
         }
     }
 }

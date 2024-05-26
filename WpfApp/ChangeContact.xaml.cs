@@ -7,9 +7,9 @@ namespace ContactManager
     public partial class ChangeContact : Window
     {
         public readonly Contact Contact;
-        private readonly IContactRepository contactRepository;
+        private readonly ContactRepository contactRepository;
 
-        public ChangeContact(IContactRepository contactRepository, Contact contact, ICollection<Category> categories)
+        public ChangeContact(ContactRepository contactRepository, Contact contact, ICollection<Category> categories)
         {
             InitializeComponent();
 

@@ -5,9 +5,9 @@ namespace ContactManager
     public partial class ChangeCategory : Window
     {
         private readonly Category category;
-        private readonly ICategoryRepository categoryRepository;
+        private readonly CategoryRepository categoryRepository;
 
-        public ChangeCategory(ICategoryRepository categoryRepository, Category category)
+        public ChangeCategory(CategoryRepository categoryRepository, Category category)
         {
             InitializeComponent();
 
