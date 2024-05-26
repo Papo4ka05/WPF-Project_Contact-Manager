@@ -1,16 +1,16 @@
 ﻿# Contact-Manager
 
 ### TODOs
-- [ ] Registration view
-- [ ] Register an user `RegisterUser(email, password)` with SQL-Query `insert`
-- [ ] Login view
-- [ ] Login user `Login(email, password)`. Check password and email -> switch view to Contact-Manager
-- [ ] Save `userId` globally for using ex `GetContacts(userId)`
-- [ ] Contact view
-- [ ] Create contact view
-- [ ] Check `Create(user)`
-- [ ] Change contact view
-- [ ] Check `Update(user)`
-- [ ] Check `Delete(userId)`
-- [ ] Switch categories -> call `GetContacts(userId, categoryId)`. After, the list of contacts must be updated in the view
+- [x] Registration view
+- [x] Register an user `RegisterUser(email, password)` with SQL-Query `insert`
+- [x] Login view
+- [x] Login user `Login(email, password)`. Check password and email -> switch view to Contact-Manager
+- [x] Save `userId` for using ex `GetContacts(userId)`
+- [x] Contact view
+- [x] Create contact view
+- [x] Check `Create(user)`
+- [x] Change contact view
+- [x] Check `Update(user)`
+- [x] Check `Delete(userId)`
+- [x] Switch categories -> call `GetContacts(userId, categoryId)`. After, the list of contacts must be updated in the view
 - [ ] Paging
