@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"        
         Title="ContactManagerWindow" Height="500" Width="700">
-    <Grid>
+    <Grid Style="{StaticResource GradientGridStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <!--1/3-->
@@ -53,11 +53,17 @@
         <!-- Category title -->
         <Grid Grid.Column="0" Grid.Row="2" Grid.RowSpan="1">
             <Grid Margin="10,0,10,0">
-                <Grid.ColumnDefinitions >
+                <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20px"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock>Categories</TextBlock>
+                <TextBlock Foreground="White">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="Categories: '{0}' selected">
+                            <Binding ElementName="lbCategories" Path="SelectedItem.Name" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <Button Grid.Column="1" Click="Create_Category" Tag="{Binding}" ToolTip="Create category">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Static/add.png" />
@@ -73,7 +79,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="20px"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock>Contacts</TextBlock>
+                <TextBlock Foreground="White">Contacts</TextBlock>
                 <Button Grid.Column="1" Click="Create_Contact" Tag="{Binding}" ToolTip="Create contact">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Static/add.png" />
@@ -107,6 +113,15 @@
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=DataContext.Id}" Value="0">
+                                <Setter Property="Background" Value="Orange" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Resources>
             </ListBox>
         </Grid>
 

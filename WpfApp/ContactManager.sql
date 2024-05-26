@@ -21,7 +21,7 @@ create table Categories (
 );
 
 create table Contacts (
-  CategoryId int foreign key references Categories(Id) null,
+  CategoryId int null,
   DateOfBirth date null,
   Email varchar(100) null,
   FirstName varchar(100) null,
@@ -30,6 +30,7 @@ create table Contacts (
   Note varchar(200) null,
   PhoneNumber varchar(200) not null,
   UserId int foreign key references Users(Id) not null,
+  foreign key (CategoryId) references Categories(Id) on delete set null
 );
 
 insert into Users ("Email", "Username", "Password") values 

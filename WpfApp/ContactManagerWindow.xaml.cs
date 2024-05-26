@@ -51,7 +51,6 @@ namespace ContactManager
         {
             if (lbCategories.SelectedItem != null)
             {
-                // temporäre Lösung
                 categoryId = (lbCategories.SelectedItem as Category)?.Id ?? 0;
                 lbContacts.ItemsSource = contactRepository.GetList(userId, categoryId);
             }
@@ -63,7 +62,10 @@ namespace ContactManager
             var changeCategoryWindow = new ChangeCategory(categoryRepository, category);
             changeCategoryWindow.ShowDialog();
 
+            // TODO categoryId stimmt nicht mehr, temporär wird Id auf 0 gesetzt. Alternative: nach Guid ergänzen
             lbCategories.ItemsSource = categoryRepository.GetList(userId);
+            categoryId = 0;
+            lbCategories.SelectedIndex = categoryId;
         }
 
         private void Change_Contact(object sender, RoutedEventArgs e)
@@ -80,7 +82,10 @@ namespace ContactManager
             var createCategoryWindow = new CreateCategory(categoryRepository, userId);
             createCategoryWindow.ShowDialog();
 
+            // TODO categoryId stimmt nicht mehr, temporär wird Id auf 0 gesetzt. Alternative: nach Guid ergänzen
             lbCategories.ItemsSource = categoryRepository.GetList(userId);
+            categoryId = 0;
+            lbCategories.SelectedIndex = categoryId;
         }
 
         private void Create_Contact(object sender, RoutedEventArgs e)
@@ -99,6 +104,7 @@ namespace ContactManager
             categoryId = categoryId == deletCategoryId ? 0 : categoryId;
 
             lbCategories.ItemsSource = categoryRepository.GetList(userId);
+            lbCategories.SelectedIndex = 0;
         }
 
         private void Delete_Contact(object sender, RoutedEventArgs e)
