@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 
 namespace ContactManager
 {
@@ -14,5 +15,6 @@ namespace ContactManager
         public string PhoneNumber { get; set; }
         public int UserId { get; set; }
         public string PhotoPath { get; set; }
+        public BitmapImage Photo { get; set;}
     }
 }

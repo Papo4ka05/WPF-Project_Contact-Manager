@@ -209,7 +209,7 @@
 
         <!-- Contacts ListView-->
         <Grid Grid.Column="1" Grid.Row="3" >
-            <ListView  Name="lbContacts" Margin="10" HorizontalContentAlignment="Stretch" SelectionChanged="lbContacts_SelectionChanged">
+            <ListView  Name="lbContacts" Margin="10,10,175,10" HorizontalContentAlignment="Stretch" SelectionChanged="lbContacts_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Phone" DisplayMemberBinding="{Binding PhoneNumber}" />
@@ -240,6 +240,9 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <Border Style="{StaticResource Border_Style}" Margin="397,10,10,10">
+                <Image Name="iImage"></Image>
+            </Border>
         </Grid>
     </Grid>
 </Window>

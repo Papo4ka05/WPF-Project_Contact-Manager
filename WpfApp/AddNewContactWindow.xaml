@@ -24,15 +24,17 @@
         <StackPanel>
 
             <Grid>
-                <Ellipse Width="100" Height="100" Fill="Gray">
+                <Image Name="iImage" Width="100" Height="100"></Image>
+                <!--<Ellipse Width="100" Height="100" Fill="Gray">
                     <Ellipse.Stroke>
                         <SolidColorBrush Color="White" />
                     </Ellipse.Stroke>
+                    
                     <Ellipse.Clip>
                         <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50" />
                     </Ellipse.Clip>
-                    <!--<Image Source="path_to_default_image.jpg" Stretch="UniformToFill"/>-->
-                </Ellipse>
+                    --><!--<Image Source="path_to_default_image.jpg" Stretch="UniformToFill"/>--><!--
+                </Ellipse>-->
                 <Button Content="Choose Foto" HorizontalAlignment="Center" VerticalAlignment="Bottom" Click="SelectImage_Click"/>
             </Grid>
             
@@ -139,7 +141,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Name="btApply" Margin="0 0 10 0" Grid.Column="0" Content="Apply"/>
+                <Button Name="btApply" Click="Create" Margin="0 0 10 0" Grid.Column="0" Content="Apply"/>
                 <Button Name="btReset" Grid.Column="1" Content="Reset" Click="ResetButton_Click"/>
                 <Button Name="btClose" Margin="10 0 0 0" Grid.Column="2" Content="Close"/>
 

@@ -24,6 +24,8 @@ namespace ContactManager
     {
         private readonly ContactRepository contactRepository;
         private readonly int userId = 0;
+        public string path = string.Empty;
+
         public AddNewContactWindow(ContactRepository contactRepository, ICollection<Category> categories, int userId)
         {
             InitializeComponent();
@@ -71,10 +73,8 @@ namespace ContactManager
 
             if (openFileDialog.ShowDialog() == true)
             {
-                string selectedImagePath = openFileDialog.FileName;
-                byte[] AsBytes = File.ReadAllBytes(selectedImagePath);
-                // String AsBase64String = Convert.ToBase64String(AsBytes);
-
+                path = openFileDialog.FileName;
+                iImage.Source = new BitmapImage(new Uri(path));
             }
             else
             {
@@ -104,6 +104,7 @@ namespace ContactManager
                 LastName = tbLastName.Text,
                 Note = tbNote.Text,
                 PhoneNumber = tbPhone.Text,
+                PhotoPath = path,
                 UserId = userId,
             };
 

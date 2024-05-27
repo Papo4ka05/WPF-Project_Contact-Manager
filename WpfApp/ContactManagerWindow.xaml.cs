@@ -166,8 +166,6 @@ namespace ContactManager
 
                 if (contact != null)
                 {
-
-
                     if (contact.CategoryId != null)
                     {
                         List<Category> categories = (categoryRepository.GetList(userId)).ToList();
@@ -186,6 +184,7 @@ namespace ContactManager
                     tb_PhoneNumber.Text = contact.PhoneNumber;
                     tb_Email.Text = contact.Email;
                     tb_Note.Text = contact.Note;
+                    iImage.Source = contact.Photo;
                 }
             }
 
