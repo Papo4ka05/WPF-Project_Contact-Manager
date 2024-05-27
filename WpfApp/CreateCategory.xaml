@@ -11,7 +11,7 @@
             <TextBlock Height="20">Create new category</TextBlock>
             <Label Content="_Name:" Width="180"/>
             <TextBox Style="{StaticResource InputStyle}" x:Name="tbName" Width="180" />
-            <Button Style="{StaticResource ButtonStyle}" Content="_Create" Click="Create_Category" Width="100"/>
+            <Button Content="_Create" Click="Create_Category" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

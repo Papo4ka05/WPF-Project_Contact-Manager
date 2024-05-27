@@ -31,6 +31,7 @@ create table Contacts (
   PhoneNumber varchar(200) not null,
   UserId int foreign key references Users(Id) not null,
   foreign key (CategoryId) references Categories(Id) on delete set null
+  Photo varbinary(max) null
 );
 
 insert into Users ("Email", "Username", "Password") values 

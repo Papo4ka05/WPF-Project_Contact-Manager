@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +22,15 @@ namespace ContactManager
     /// </summary>
     public partial class AddNewContactWindow : Window
     {
-        public AddNewContactWindow()
+        private readonly ContactRepository contactRepository;
+        private readonly int userId = 0;
+        public AddNewContactWindow(ContactRepository contactRepository, ICollection<Category> categories, int userId)
         {
             InitializeComponent();
-        }
+            this.contactRepository = contactRepository;
 
-        private void ComboBox_Drop(object sender, DragEventArgs e)
-        {
-
+            cmbCategories.ItemsSource = categories;
+            this.userId = userId;
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -65,11 +68,48 @@ namespace ContactManager
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
             if (openFileDialog.ShowDialog() == true)
             {
                 string selectedImagePath = openFileDialog.FileName;
+                byte[] AsBytes = File.ReadAllBytes(selectedImagePath);
+                // String AsBase64String = Convert.ToBase64String(AsBytes);
+
+            }
+            else
+            {
+                MessageBox.Show("");
+            }
+        }
+
+
+        private void Create(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbPhone.Text))
+            {
+                MessageBox.Show("Phone is empty", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                return;
             }
 
+            int? categoryId = (cmbCategories.SelectedItem as Category)?.Id;
+
+            var contact = new Contact
+            {
+                CategoryId = categoryId == 0 ? null : categoryId,
+                // TODO null wenn Text eingegeben wurde
+                DateOfBirth = dpDateOfBirth.SelectedDate,
+                Email = tbEmail.Text,
+                FirstName = tbFirstName.Text,
+                LastName = tbLastName.Text,
+                Note = tbNote.Text,
+                PhoneNumber = tbPhone.Text,
+                UserId = userId,
+            };
+
+            contactRepository.Create(contact);
+
+            Close();
         }
 
     }

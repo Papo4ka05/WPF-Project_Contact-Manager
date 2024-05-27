@@ -6,75 +6,22 @@
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"
         xmlns:s="/Styles/TextBoxStyles.xaml"
-        Title="Add Contact" Height="600" Width="400">
+        Title="Add Contact" Height="450" Width="400">
     <Window.Resources>
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+        <Style TargetType="TextBox" x:Key="TextBoxStyles">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource Self}}">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </DataTrigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#8643D6"/>
-        <SolidColorBrush x:Key="Button.Static.Foreground" Color="#eeeeee"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#9679B8"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#9679B8"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="	#C5B2DC"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{StaticResource Button.Static.Foreground}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ButtonBase}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="Button.IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        
     </Window.Resources>
     
     <Border Padding="10">
         <StackPanel>
-
-            <!-- Foto -->
-            <StackPanel>
-                <Button Height="50" Content="aGSFEaef"/>
-            </StackPanel>
 
             <Grid>
                 <Ellipse Width="100" Height="100" Fill="Gray">
@@ -98,12 +45,12 @@
 
                 <StackPanel Grid.Column="0" Margin="0 0 10 0">
                     <TextBlock Text="First Name"/>
-                    <TextBox Background="#eee" Padding="2"/>
+                    <TextBox Name="tbFirstName" Background="#eee" Padding="2"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Birthday"/>
-                    <TextBox Background="#eee" Padding="2" />
+                    <DatePicker x:Name="dpDateOfBirth" SelectedDateFormat="Short" />
                 </StackPanel>
             </Grid>
 
@@ -126,35 +73,31 @@
 
                 <StackPanel Grid.Column="0" Margin="0 0 10 0">
                     <TextBlock Text="Last Name"/>
-                    <TextBox IsReadOnly="True" Background="#eee" Padding="2" />
+                    <TextBox Name="tbLastName" Background="#eee" Padding="2" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock Text="Category"/>
-                    <ComboBox Padding="2" SelectedIndex="0">
-                        <!-- mb Categories in it?-->
-                        <ComboBoxItem>Family</ComboBoxItem>
-                        <ComboBoxItem>Friends</ComboBoxItem>
-                        <ComboBoxItem>Work</ComboBoxItem>
-                        <ComboBoxItem>Something</ComboBoxItem>
+                    <ComboBox Name="cmbCategories" Padding="2" SelectedIndex="0">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
             </Grid>
 
-            <!-- Part Number -->
+            <!-- Phone Number -->
             <TextBlock Text="Phone number"/>
-            <TextBox IsReadOnly="false" Background="#eee" Padding="2"/>
+            <TextBox Name="tbPhone" Background="#eee" Padding="2"/>
             
-            <!-- Material -->
-            <TextBlock Text="Category"/>
-            <ComboBox Padding="2" SelectedIndex="0">
-                <!-- mb Categories in it?-->
-                <ComboBoxItem>Family</ComboBoxItem>
-                <ComboBoxItem>Friends</ComboBoxItem>
-                <ComboBoxItem>Work</ComboBoxItem>
-                <ComboBoxItem>Something</ComboBoxItem>
-            </ComboBox>
-            
+            <!-- Email -->
+            <TextBlock Text="Email"/>
+            <TextBox Name="tbEmail" Background="#eee" Padding="2"/>
+
             <!--<Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -183,7 +126,8 @@
 
             <TextBlock Text="Note" Margin="0 10 0 0"/>
 
-            <TextBox x:Name="NoteTextBox" Text="Note" Style="{StaticResource TextBoxStyles}" Tag="Note" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            
+            <TextBox x:Name="tbNote" Text="Note" Tag="Note" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <!--Style="{StaticResource TextBoxStyles}"-->
             
             <!-- Buttons Option -->
@@ -195,9 +139,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Margin="0 0 10 0" Grid.Column="0" Content="Apply"/>
-                <Button Grid.Column="1" Content="Reset" Click="ResetButton_Click"/>
-                <Button Margin="10 0 0 0" Grid.Column="2" Content="Refresh"/>
+                <Button Name="btApply" Margin="0 0 10 0" Grid.Column="0" Content="Apply"/>
+                <Button Name="btReset" Grid.Column="1" Content="Reset" Click="ResetButton_Click"/>
+                <Button Name="btClose" Margin="10 0 0 0" Grid.Column="2" Content="Close"/>
 
             </Grid>
 

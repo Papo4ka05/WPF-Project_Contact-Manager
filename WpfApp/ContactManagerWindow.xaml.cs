@@ -86,7 +86,24 @@ namespace ContactManager
             var changeContactWindow = new ChangeContact(contactRepository, contact, lbCategories.ItemsSource as ICollection<Category>);
             changeContactWindow.ShowDialog();
 
+            List<Contact> contacts = (contactRepository.GetList(userId, categoryId)).ToList();
+            int indexContact = contacts.Select(item => item.Id).ToList().IndexOf(contactId);
+
             lbContacts.ItemsSource = contactRepository.GetList(userId, categoryId);
+
+            lbContacts.SelectedIndex = indexContact;
+
+            var newContact = contacts.ElementAt(indexContact);
+
+            if (contactId == newContact.Id)
+            {
+                tb_FirstName.Text = newContact.FirstName;
+                tb_LastName.Text = newContact.LastName;
+                tb_Birthday.Text = newContact.DateOfBirth.HasValue ? newContact.DateOfBirth.Value.ToString("dd.MM.yyyy") : string.Empty;
+                tb_PhoneNumber.Text = newContact.PhoneNumber;
+                tb_Email.Text = newContact.Email;
+                tb_Note.Text = newContact.Note;
+            }
         }
 
         private void Create_Category(object sender, RoutedEventArgs e)
@@ -103,7 +120,7 @@ namespace ContactManager
 
         private void Create_Contact(object sender, RoutedEventArgs e)
         {
-            var createContactWindow = new CreateContact(contactRepository, lbCategories.ItemsSource as ICollection<Category>, userId);
+            var createContactWindow = new AddNewContactWindow(contactRepository, lbCategories.ItemsSource as ICollection<Category>, userId);
             createContactWindow.ShowDialog();
 
             lbContacts.ItemsSource = contactRepository.GetList(userId, categoryId);

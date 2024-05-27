@@ -16,7 +16,7 @@
             <Setter Property="Padding" Value="10"/>
             <Style.Triggers>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Foreground" Value="Gray"/>
+                    <Setter Property="Foreground" Value="Black"/>
                     <Setter Property="Background" Value="LightGray"/>
                 </Trigger>
             </Style.Triggers>

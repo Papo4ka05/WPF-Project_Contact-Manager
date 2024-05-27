@@ -5,7 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"        
-        Title="ContactManagerWindow" Height="500" Width="700">
+        Title="Contact Manager" Height="500" Width="850">
+    <Window.Resources>
+        <!-- Style for the Label -->
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <!-- Style for the TextBlock -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Style for the Border -->
+        <Style TargetType="Border" x:Key="Border_Style">
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderBrush" Value="DarkGray"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+
+        <!-- Style for the ListView -->
+        <Style TargetType="ListView">
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <!--<Setter Property="SelectionChanged" Value="lbContacts_SelectionChanged"/>-->
+        </Style>
+
+        <!-- Style for the GridViewColumnHeader -->
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="LightGray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid Style="{StaticResource GradientGridStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -21,7 +63,7 @@
         </Grid.RowDefinitions>
 
         <!-- Left side the window-->
-        <Border Grid.Column="0" Margin="10" Background="LightGray">
+        <Border Grid.Column="0" Margin="10" Background="LightGray" Style="{StaticResource ResourceKey=Border_Style}">
             <!-- Profile -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -29,7 +71,7 @@
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">Username:</Label>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Name="BoxLol"></TextBlock>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Name="BoxLol" ></TextBlock>
             </Grid>
             <!--<StackPanel>
                 <Border BorderBrush="Black" BorderThickness="1" Margin="10">
@@ -50,7 +92,9 @@
             <Button Content="Info" MinWidth="50" />
         </StackPanel>-->
 
-        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="LightGray" Margin="10">
+
+
+        <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource Border_Style}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -64,19 +108,26 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0">First Name:</Label>
+
+                <Label Grid.Column="0" VerticalAlignment="Center">First Name:</Label>
                 <TextBlock Name="tb_FirstName" Grid.Column="1" VerticalAlignment="Center"/>
-                <Label Grid.Column="2">Birthday:</Label>
-                <TextBlock Name="tb_LastName" Grid.Column="3" VerticalAlignment="Center"/>
-                <Label Grid.Column="0" Grid.Row="1">Last Name:</Label>
-                <TextBlock Name="tb_Birthday" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
-                <Label Grid.Column="2" Grid.Row="1">Phone Number:</Label>
+
+                <Label Grid.Column="2" VerticalAlignment="Center">Birthday:</Label>
+                <TextBlock Name="tb_Birthday" Grid.Column="3" VerticalAlignment="Center"/>
+
+                <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Last Name:</Label>
+                <TextBlock Name="tb_LastName" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center"/>
+
+                <Label Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">Phone Number:</Label>
                 <TextBlock Name="tb_PhoneNumber" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center"/>
-                <Label Grid.Column="0" Grid.Row="2">Email:</Label>
+
+                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Email:</Label>
                 <TextBlock Name="tb_Email" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center"/>
-                <Label Grid.Column="2" Grid.Row="2">Category:</Label>
+
+                <Label Grid.Column="2" Grid.Row="2" VerticalAlignment="Center">Category:</Label>
                 <TextBlock Name="tb_Category" Grid.Column="3" Grid.Row="2" VerticalAlignment="Center"/>
-                <Label Grid.Column="0" Grid.Row="3">Note:</Label>
+
+                <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">Note:</Label>
                 <TextBlock Name="tb_Note" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
             </Grid>
         </Border>
@@ -95,7 +146,7 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <Button Grid.Column="1" Click="Create_Category" Tag="{Binding}" ToolTip="Create category">
+                <Button Grid.Column="1" Click="Create_Category" Tag="{Binding}" ToolTip="Create category" Style="{x:Null}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Static/add.png" />
                     </StackPanel>
@@ -111,7 +162,7 @@
                     <ColumnDefinition Width="20px"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Foreground="White">Contacts</TextBlock>
-                <Button Grid.Column="1" Click="Create_Contact" Tag="{Binding}" ToolTip="Create contact">
+                <Button Grid.Column="1" Click="Create_Contact" Tag="{Binding}" ToolTip="Create contact" Style="{x:Null}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Static/add.png" />
                     </StackPanel>

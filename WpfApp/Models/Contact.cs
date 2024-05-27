@@ -13,5 +13,6 @@ namespace ContactManager
         public string Note { get; set; }
         public string PhoneNumber { get; set; }
         public int UserId { get; set; }
+        public string PhotoPath { get; set; }
     }
 }
