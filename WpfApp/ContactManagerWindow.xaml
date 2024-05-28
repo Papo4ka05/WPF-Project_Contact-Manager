@@ -47,7 +47,7 @@
             <Setter Property="Padding" Value="5"/>
         </Style>
     </Window.Resources>
-    
+
     <Grid Style="{StaticResource GradientGridStyle}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -92,7 +92,11 @@
             <Button Content="Info" MinWidth="50" />
         </StackPanel>-->
 
-
+        <Button Grid.Column="0" Grid.Row="1" Margin="10" Click="InformationButton_Click" Tag="{Binding}" ToolTip="Information" Style="{x:Null}" Height="25" Width="25" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <StackPanel Orientation="Horizontal" Height="20">
+                <Image Source="/Static/information.png"/>
+            </StackPanel>
+        </Button>
 
         <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource Border_Style}">
             <Grid>

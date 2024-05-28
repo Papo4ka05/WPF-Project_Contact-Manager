@@ -189,5 +189,10 @@ namespace ContactManager
             }
 
         }
+
+        private void InformationButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("App Version: 1.0\nCompatible only with Windows users.");
+        }
     }
 }

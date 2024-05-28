@@ -22,18 +22,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- Button style -->
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="30 10"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Padding" Value="10"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="DarkGray"/>
-                </Trigger>
-            </Style.Triggers>
-            
-        </Style>
+        
     </Window.Resources>
 
 
@@ -59,29 +48,13 @@
 
 
 
-                <TextBox x:Name="TextBoxLogin" Text="Login" Style="{StaticResource InputStyle}"/>
-                <PasswordBox x:Name="PassBox" Password="Password" Style="{StaticResource InputStyle}"/>
-                <Button Content="Login" Click="Button_Auth_Click" Style="{StaticResource ButtonStyle}">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="20" Background="Gray">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                
-                <Button Content="Sign Up" Click="Button_Registration_Click" Style="{StaticResource ButtonStyle}">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Border CornerRadius="20" Background="Gray">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-                
-                
+                <TextBox x:Name="TextBoxLogin" Text="User Name" Style="{StaticResource InputStyle}" Tag="User Name" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <PasswordBox x:Name="PassBox" Password="Password" Style="{StaticResource InputStyle}" Tag="Password" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus"/>
+                <Button Content="Login" Margin="30 15" Click="Button_Auth_Click"/>
+
+                <Button Content="Sign Up" Margin="30 0 30 0" Click="Button_Registration_Click"/>
+
+
             </StackPanel>
         </Border>
     </Grid>

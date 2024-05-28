@@ -129,7 +129,7 @@
             <TextBlock Text="Note" Margin="0 10 0 0"/>
 
             
-            <TextBox x:Name="tbNote" Text="Note" Tag="Note" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="tbNote" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
             <!--Style="{StaticResource TextBoxStyles}"-->
             
             <!-- Buttons Option -->

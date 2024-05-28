@@ -40,32 +40,6 @@ namespace ContactManager
 
         }
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                string originalText = textBox.Tag as string;
-                if (textBox.Text == originalText)
-                {
-                    textBox.Text = "";
-                }
-            }
-        }
-
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                string originalText = textBox.Tag as string;
-                if (string.IsNullOrWhiteSpace(textBox.Text))
-                {
-                    textBox.Text = originalText;
-                }
-            }
-        }
-
         private void SelectImage_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,6 +86,5 @@ namespace ContactManager
 
             Close();
         }
-
     }
 }

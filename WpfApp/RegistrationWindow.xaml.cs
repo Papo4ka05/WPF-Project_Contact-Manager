@@ -142,8 +142,6 @@ namespace ContactManager
                 var dataTable = new DataTable();
                 sqlDataAdapter.Fill(dataTable);
 
-                var gay = dataTable.Rows[0].ToString();
-
                 var userExists = Convert.ToBoolean(query.ExecuteScalar());
 
                 // bool userExists = Convert.ToBoolean(dataTable.Rows[0].ToString());
@@ -153,5 +151,57 @@ namespace ContactManager
 
             //return userExists;
         }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                string originalText = textBox.Tag as string;
+                if (textBox.Text == originalText)
+                {
+                    textBox.Text = "";
+                }
+            }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                string originalText = textBox.Tag as string;
+                if (string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    textBox.Text = originalText;
+                }
+            }
+        }
+        private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            if (passwordBox != null)
+            {
+                string originalText = passwordBox.Tag as string;
+                if (passwordBox.Password == originalText)
+                {
+                    passwordBox.Password = "";
+                }
+            }
+        }
+
+        private void PasswordBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            if (passwordBox != null)
+            {
+                string originalText = passwordBox.Tag as string;
+                if (string.IsNullOrWhiteSpace(passwordBox.Password))
+                {
+                    passwordBox.Password = originalText;
+                }
+            }
+        }
+
     }
 }

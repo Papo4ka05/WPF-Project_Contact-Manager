@@ -126,14 +126,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ButtonStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Styles\TextBoxStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Styling.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -166,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ContactManager.sql" />
+    <Resource Include="Static\information.png" />
     <Resource Include="Static\add.png" />
     <Resource Include="Static\delete.png" />
     <Resource Include="Static\edit.png" />

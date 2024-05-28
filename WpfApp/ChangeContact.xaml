@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"
-        Title="ChangeContact" Height="400" Width="250">
+        Title="ChangeContact" Height="440" Width="250">
     <Grid>
         <StackPanel HorizontalAlignment="Center">
-            <TextBlock Height="22"><Run Text="Create contact"/></TextBlock>
+            <TextBlock Height="22" Margin="0 10" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"><Run Text="Change contact" /></TextBlock>
             <Label Content="_Category:" Width="180" />
             <ComboBox Name="cmbCategories">
                 <!--<ComboBoxItem IsSelected="True">None</ComboBoxItem>-->
@@ -32,7 +32,7 @@
             <DatePicker x:Name="dpDateOfBirth" SelectedDateFormat="Short" />
             <Label Content="_Note:" Width="180" />
             <TextBox x:Name="tbNote" Width="180" />
-            <Button Content="_Change" Click="Change" Width="100" />
+            <Button Content="_Change" Margin="0 10" Click="Change" Width="100" />
         </StackPanel>
     </Grid>
 </Window>

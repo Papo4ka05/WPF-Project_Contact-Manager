@@ -30,7 +30,7 @@ create table Contacts (
   Note varchar(200) null,
   PhoneNumber varchar(200) not null,
   UserId int foreign key references Users(Id) not null,
-  foreign key (CategoryId) references Categories(Id) on delete set null
+  foreign key (CategoryId) references Categories(Id) on delete set null,
   Photo varbinary(max) null
 );
 
