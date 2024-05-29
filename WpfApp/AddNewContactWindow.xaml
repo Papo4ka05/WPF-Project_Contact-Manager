@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ContactManager"
         mc:Ignorable="d"
         xmlns:s="/Styles/TextBoxStyles.xaml"
-        Title="Add Contact" Height="450" Width="400">
+        Title="Add Contact" Height="430" Width="400">
     <Window.Resources>
         <Style TargetType="TextBox" x:Key="TextBoxStyles">
             <Style.Triggers>
@@ -126,9 +126,9 @@
                 </StackPanel>
             </Grid>-->
 
-            <TextBlock Text="Note" Margin="0 10 0 0"/>
-
             
+            <!--Notes-->
+            <TextBlock Text="Note" Margin="0 10 0 0"/>
             <TextBox x:Name="tbNote" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible"/>
             <!--Style="{StaticResource TextBoxStyles}"-->
             
@@ -143,7 +143,7 @@
 
                 <Button Name="btApply" Click="Create" Margin="0 0 10 0" Grid.Column="0" Content="Apply"/>
                 <Button Name="btReset" Grid.Column="1" Content="Reset" Click="ResetButton_Click"/>
-                <Button Name="btClose" Margin="10 0 0 0" Grid.Column="2" Content="Close"/>
+                <Button Name="btClose" Margin="10 0 0 0" Grid.Column="2" Content="Close" Click="btClose_Click"/>
 
             </Grid>
 

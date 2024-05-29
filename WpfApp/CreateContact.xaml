@@ -32,7 +32,7 @@
             <DatePicker x:Name="dpDateOfBirth" SelectedDateFormat="Short" />
             <Label Content="_Note:" Width="180" />
             <TextBox x:Name="tbNote" Width="180" />
-            <Button Content="_Create" Click="Create" Width="100" />
+            <Button Content="_Create" Click="Create" Margin="10" Width="100" />
         </StackPanel>
     </Grid>
 </Window>

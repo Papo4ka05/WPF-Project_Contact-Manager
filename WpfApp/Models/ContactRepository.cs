@@ -19,29 +19,24 @@ namespace ContactManager
         {
             try
             {
-                // Use using to create a SqlConnection object that will be automatically closed after use
                 using (var conn = new SqlConnection(Properties.Settings.Default.ConnectionString))
                 {
                     if (conn == null)
                     {
                         MessageBox.Show("connection is null", "Database connection", MessageBoxButton.OK, MessageBoxImage.Warning);
-
                         return;
                     }
                     else if (contact == null)
                     {
                         MessageBox.Show("contact is null", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
-
                         return;
                     }
 
-                    // Create an SQL query to insert a new contact into the ‘Contacts’ table using the prepared parameters
                     var query = new SqlCommand(@"insert into ""Contacts"" (""FirstName"", ""LastName"", ""PhoneNumber"", ""DateOfBirth"", ""Email"", ""Note"", ""CategoryId"", ""UserId"", ""Photo"")
-                    values (@firstName, @lastName, @phoneNumber, @dateOfBirth, @email, @note, @categoryId, @userId, @file);", conn);
+            values (@firstName, @lastName, @phoneNumber, @dateOfBirth, @email, @note, @categoryId, @userId, @file);", conn);
 
                     conn.Open();
 
-                    // Add parameters to the request using values from the contact
                     SqlParameter categoryIdParam = query.Parameters.AddWithValue("@categoryId", contact.CategoryId);
                     if (contact.CategoryId == null)
                     {
@@ -54,43 +49,46 @@ namespace ContactManager
                         dateOfBirthParam.Value = DBNull.Value;
                     }
 
+                    // Handle the photo parameter
+                    SqlParameter photoParam = new SqlParameter("@file", SqlDbType.VarBinary);
                     if (!string.IsNullOrEmpty(contact.PhotoPath))
                     {
                         byte[] fileBytes = File.ReadAllBytes(contact.PhotoPath);
-                        query.Parameters.AddWithValue("@file", fileBytes);
+                        photoParam.Value = fileBytes;
                     }
                     else
                     {
-                        query.Parameters.AddWithValue("@file", null);
+                        photoParam.Value = DBNull.Value;
                     }
+                    query.Parameters.Add(photoParam);
 
                     query.Parameters.AddRange(new[]
                     {
-                    new SqlParameter("userId", SqlDbType.Int)
-                    {
-                        Value = contact.UserId
-                    },
-                    new SqlParameter("email", SqlDbType.VarChar)
-                    {
-                        Value = contact.Email
-                    },
-                    new SqlParameter("firstName", SqlDbType.VarChar)
-                    {
-                        Value = contact.FirstName
-                    },
-                    new SqlParameter("lastName", SqlDbType.VarChar)
-                    {
-                        Value = contact.LastName
-                    },
-                    new SqlParameter("note", SqlDbType.VarChar)
-                    {
-                        Value = contact.Note
-                    },
-                    new SqlParameter("phoneNumber", SqlDbType.VarChar)
-                    {
-                        Value = contact.PhoneNumber
-                    },
-                });
+                new SqlParameter("userId", SqlDbType.Int)
+                {
+                    Value = contact.UserId
+                },
+                new SqlParameter("email", SqlDbType.VarChar)
+                {
+                    Value = contact.Email
+                },
+                new SqlParameter("firstName", SqlDbType.VarChar)
+                {
+                    Value = contact.FirstName
+                },
+                new SqlParameter("lastName", SqlDbType.VarChar)
+                {
+                    Value = contact.LastName
+                },
+                new SqlParameter("note", SqlDbType.VarChar)
+                {
+                    Value = contact.Note
+                },
+                new SqlParameter("phoneNumber", SqlDbType.VarChar)
+                {
+                    Value = contact.PhoneNumber
+                },
+            });
 
                     query.ExecuteNonQuery();
                 }
@@ -100,6 +98,8 @@ namespace ContactManager
                 MessageBox.Show(exception.Message, "SQL error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
 
         /// <summary>Delete contact</summary>
         // This method performs the deletion of a contact from the database by its identifier (contactID)

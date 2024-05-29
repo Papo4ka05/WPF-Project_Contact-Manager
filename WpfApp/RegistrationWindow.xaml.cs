@@ -37,14 +37,14 @@ namespace ContactManager
 
             bool inputError = false;
 
-            if (login.Length < 5)
+            if (login.Length < 5 || login.Length > 50)
             {
                 // ToolTip показывается подсказку при наведение мышкой на сам объект
                 TextBoxLogin.ToolTip = "This field is not entered correctly!";
                 TextBoxLogin.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));
                 inputError = true;
             }
-            if (pass.Length < 5)
+            if (pass.Length < 5 || pass.Length > 50)
             {
                 PassBox.ToolTip = "This field is not entered correctly!";
                 PassBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FE3F44"));    //Brushes.DarkRed; (another example)
@@ -78,15 +78,13 @@ namespace ContactManager
                 TextBoxEmail.ToolTip = "";
                 TextBoxEmail.Background = Brushes.Transparent;
 
-                MessageBox.Show("All good!");
-
-                CreateUser(login, pass, email);
-
-                Close();
+                int id = CreateUser(login, pass, email);
 
                 // TODO userId fehlt
-                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(1, login);
+                ContactManagerWindow contactManagerWindow = new ContactManagerWindow(id, login);
                 contactManagerWindow.Show();
+
+                Close();
             }
         }
 
@@ -102,24 +100,41 @@ namespace ContactManager
             Close();
         }
 
-        public void CreateUser(string username, string password, string email)
+        public int CreateUser(string username, string password, string email)
         {
-            using(var connection = new SqlConnection(Properties.Settings.Default.ConnectionString)) 
+            using (var connection = new SqlConnection(Properties.Settings.Default.ConnectionString))
             {
                 if (connection == null)
                 {
                     MessageBox.Show("connection is null", "Database connection", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return -1;
                 }
 
-                var query = new SqlCommand("Insert into \"Users\" (\"Username\", \"Password\", \"Email\") " +
-                    $"values ('{username}', '{password}', '{email}')", connection);
+                try
+                {
+                    connection.Open();
 
-                // Bei der User gibts keine Password, Warum?
+                    var query = new SqlCommand(
+                        "Insert into Users (Username, Password, Email) values (@Username, @Password, @Email); " +
+                        "Select CAST(scope_identity() AS int);",
+                        connection);
 
-                connection.Open();
-                query.ExecuteNonQuery();
+                    query.Parameters.AddWithValue("@Username", username);
+                    query.Parameters.AddWithValue("@Password", password);
+                    query.Parameters.AddWithValue("@Email", email);
+
+                    // Выполняем запрос и получаем ID нового пользователя
+                    int newUserId = (int)query.ExecuteScalar();
+                    return newUserId;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return -1;
+                }
             }
         }
+
 
         public bool CheckUser(string username, string email) 
         {
